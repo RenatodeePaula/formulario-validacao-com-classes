@@ -3,7 +3,7 @@ class ValidaFormulario {
     this.formulario = document.querySelector(".formulario");
     this.validar = document.querySelectorAll(".validar");
     this.eventos();
-    this.senhaDigitada;
+    this.senhaDigitada;    
   }
 
   eventos(e) {
@@ -15,10 +15,15 @@ class ValidaFormulario {
   hadleSubmit(e) {
     e.preventDefault();
     const camposValidos = this.camposSaoValidos();
+    
+    if(camposValidos) {
+      console.log(camposValidos)
+      // alert('Formulário enviado com sucesso!');
+    }
   }
 
-  camposSaoValidos() {
-    let valid = true;
+  camposSaoValidos() {       
+    let valid =  false;
     for (let errorText of this.formulario.querySelectorAll(".error-text")) {
       errorText.remove();
     }
@@ -28,9 +33,11 @@ class ValidaFormulario {
 
       //==============Valida CAMPOS VAZIOS=============================
       if (!campo.value) {
-        this.criaErro(campo, `Campo "${labelText}" não pode estar em branco.`);
         valid = false;
-      }     
+        this.criaErro(campo, `Campo "${labelText}" não pode estar em branco.`);
+      }  else{
+        valid = true;
+      }
       
       //==============VALIDA CPF======================================
       if (campo.classList.contains("cpf")) {
@@ -41,36 +48,54 @@ class ValidaFormulario {
 
       //=============VALIDA CARACTERES LETRAS E/OU NÚMEROS=============
       if (campo.classList.contains("usuario")) {        
-        if ((campo.value.length > 0) && this.validaNumeroCaracteresUsuario(campo)  ) {
+        if (this.validaNumeroCaracteresUsuario(campo)  ) {
+          valid = false;
           this.criaErro(
             campo,
             `Nome de usuário tem que conter entre 3 e 12 caracteres`
           );
-        }               
+          
+        }  else{
+          valid = true;
+        }             
 
-        if ((campo.value.length > 0) && !this.eLetraOuNumero(campo.value) ){
+        if (!this.eLetraOuNumero(campo.value) ){
+          valid = false;
           this.criaErro(
             campo,
             `Nome de usuário só pode conter letras e/ou números`
           );
+         
+        } else{
+          valid = true;
         }
       }
 
       //=============VALIDA NÚMEROS DE CARACTERES DO CAMPO SENHA =============
       if (campo.classList.contains("senha")) {
         this.senhaDigitada = campo.value;
-        if ((campo.value.length > 0) && (campo.value.length < 6 || campo.value.length > 12)) {
+        if ((campo.value.length < 6 || campo.value.length > 12)) {
+          valid = false;
           this.criaErro(campo, `Senha deve conter entre 6 e 12 caracteres`);
+        } else {
+          valid = true;
         }
       }
+
       //=================VALIDA CAMPO REPETIR SENHA =============
       if (campo.classList.contains("repetir-senha")) {
         if (this.senhaDigitada !== campo.value) {
+          valid = false;
           this.criaErro(campo, `Senhas não conferem`);
-        }
+        } 
+      } else {
+        valid = true;
       }
-    }
-  }
+    }    
+   
+    console.log(valid);
+    return valid;
+  };
 
   //=============MÉTODO=============
   eLetraOuNumero(campoUsuario) {
@@ -80,7 +105,7 @@ class ValidaFormulario {
   validaCPF(campo) {
     const cpf = new ValidaCPF(campo.value);
 
-    if (!cpf.validar()) {
+    if (!cpf.validar()) {           
       this.criaErro(campo, "CPF inválido!");
     }
   }

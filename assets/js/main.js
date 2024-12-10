@@ -55,8 +55,8 @@ class ValidaFormulario {
           );
         }
       }
-      //=============VALIDA NÚMEROS DE CARACTERES DO CAMPO SENHA =============
 
+      //=============VALIDA NÚMEROS DE CARACTERES DO CAMPO SENHA =============
       if (campo.classList.contains("senha")) {
         this.senhaDigitada = campo.value;
         if ((campo.value.length > 0) && (campo.value.length < 6 || campo.value.length > 12)) {
@@ -72,7 +72,7 @@ class ValidaFormulario {
     }
   }
 
-  //=============Métodos =============
+  //=============MÉTODO=============
   eLetraOuNumero(campoUsuario) {
     return /^[a-zA-Z0-9]+$/.test(campoUsuario);
   }

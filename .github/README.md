@@ -1,4 +1,4 @@
-<h1 align="center">Todo Avançado </h1>
+<h1 align="center">Formulário de Validação </h1>
 
 <p align="center">
 #Projeto feito para estudo de JavaScript puro, um formulário para validação com programação orientada a objetos feito com classes. <br/>

@@ -32,14 +32,14 @@ class ValidaCPF {
         let trueFalse;
         if(typeof this.cpfLimpo === 'undefined') trueFalse = false;
         if(this.cpfLimpo.length !== 11) trueFalse =  false;
-        if(this.temSequencia(this.cpfLimpo)) trueFalse = false;
         
         const cpfParcial = this.cpfLimpo.slice(0, -2)
         const digito1 = this.criaDigito(cpfParcial); 
         const digito2 = this.criaDigito(cpfParcial + digito1);
         const novoCPF = cpfParcial +  digito1 + digito2;
         if(novoCPF === this.cpfLimpo) trueFalse = true;
-
+        if(this.temSequencia(this.cpfLimpo)) trueFalse = false;
+        
         trueFalse ? trueFalse = true: trueFalse = false;
         return trueFalse;
     };    
